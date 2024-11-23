@@ -8,6 +8,6 @@ export const appwriteConfig = {
   transactionCollectionId:
     process.env.NEXT_PUBLIC_APPWRITE_TRANSACTION_COLLECTION!,
   bucketId: process.env.NEXT_PUBLIC_APPWRITE_BUCKET!,
-  secretKey: process.env.NEXT_APPWRITE_KEY!,
+  secretKey: process.env.NEXT_APPWRITE_SECRET!,
   sessionConfig: { key: "appwrite-session", maxAge: 7 * 24 * 60 * 60 },
 };

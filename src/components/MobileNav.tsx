@@ -13,7 +13,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Footer from "@/components/Footer";
 
-const MobileNav = ({ user }: MobileNavProps) => {
+const MobileNav = ({ user }: { user: UserProps }) => {
   const pathname = usePathname();
 
   return (

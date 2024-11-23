@@ -24,7 +24,7 @@ declare type logInProps = {
 declare type UserProps = {
   $id: string;
   email: string;
-  userId: string;
+  accountId: string;
   dwollaCustomerUrl: string;
   dwollaCustomerId: string;
   firstName: string;
@@ -152,10 +152,6 @@ declare interface HeaderBoxProps {
   user?: string;
 }
 
-declare interface MobileNavProps {
-  user: User;
-}
-
 declare interface PageHeaderProps {
   topTitle: string;
   bottomTitle: string;
@@ -170,19 +166,10 @@ declare interface PaginationProps {
 }
 
 declare interface PlaidLinkProps {
-  user: User;
+  user: UserProps;
   variant?: "primary" | "ghost";
   dwollaCustomerId?: string;
 }
-
-// declare type User = sdk.Models.Document & {
-//   accountId: string;
-//   email: string;
-//   name: string;
-//   items: string[];
-//   accessToken: string;
-//   image: string;
-// };
 
 declare interface AuthFormProps {
   type: "sign-in" | "sign-up";
@@ -206,18 +193,14 @@ declare interface TotalBalanceBoxProps {
 }
 
 declare interface FooterProps {
-  user: User;
+  user: UserProps;
   type?: "mobile" | "desktop";
 }
 
 declare interface RightSidebarProps {
-  user: User;
+  user: UserProps;
   transactions: Transaction[];
   banks: Bank[] & Account[];
-}
-
-declare interface SidebarProps {
-  user: User;
 }
 
 declare interface RecentTransactionsProps {
@@ -227,48 +210,7 @@ declare interface RecentTransactionsProps {
   page: number;
 }
 
-declare interface TransactionHistoryTableProps {
-  transactions: Transaction[];
-  page: number;
-}
-
-declare interface CategoryBadgeProps {
-  category: string;
-}
-
-declare interface TransactionTableProps {
-  transactions: Transaction[];
-}
-
-declare interface CategoryProps {
-  category: CategoryCount;
-}
-
-declare interface DoughnutChartProps {
-  accounts: Account[];
-}
-
-declare interface PaymentTransferFormProps {
-  accounts: Account[];
-}
-
 // Actions
-declare interface getAccountsProps {
-  userId: string;
-}
-
-declare interface getAccountProps {
-  appwriteItemId: string;
-}
-
-declare interface getInstitutionProps {
-  institutionId: string;
-}
-
-declare interface getTransactionsProps {
-  accessToken: string;
-}
-
 declare interface CreateFundingSourceOptions {
   customerId: string; // Dwolla Customer ID
   fundingSourceName: string; // Dwolla Funding Source Name
@@ -286,24 +228,6 @@ declare interface CreateTransactionProps {
   email: string;
 }
 
-declare interface getTransactionsByBankIdProps {
-  bankId: string;
-}
-
-declare interface signInUserProps {
-  email: string;
-  password: string;
-}
-
-declare interface getUserInfoProps {
-  userId: string;
-}
-
-declare interface exchangePublicTokenProps {
-  publicToken: string;
-  user: User;
-}
-
 declare interface createBankAccountProps {
   accessToken: string;
   userId: string;
@@ -311,16 +235,4 @@ declare interface createBankAccountProps {
   bankId: string;
   fundingSourceUrl: string;
   shareableId: string;
-}
-
-declare interface getBanksProps {
-  userId: string;
-}
-
-declare interface getBankProps {
-  documentId: string;
-}
-
-declare interface getBankByAccountIdProps {
-  accountId: string;
 }

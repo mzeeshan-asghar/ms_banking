@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import Footer from "@/components/Footer";
 // import PlaidLink from './PlaidLink'
 
-const Sidebar = ({ user }: SidebarProps) => {
+const Sidebar = ({ user }: { user: UserProps }) => {
   const pathname = usePathname();
 
   return (
