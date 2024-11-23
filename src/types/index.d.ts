@@ -1,9 +1,9 @@
-declare type SearchParamProps = {
-  params: { [key: string]: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+declare type ParamsProps = {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-declare type SignUpParams = {
+declare type SignUpProps = {
   firstName: string;
   lastName: string;
   address1: string;
@@ -16,12 +16,12 @@ declare type SignUpParams = {
   password: string;
 };
 
-declare type LoginUser = {
+declare type logInProps = {
   email: string;
   password: string;
 };
 
-declare type User = {
+declare type UserProps = {
   $id: string;
   email: string;
   userId: string;
@@ -38,14 +38,14 @@ declare type User = {
   ssn: string;
 };
 
-declare type NewUserParams = {
+declare type NewUserProps = {
   userId: string;
   email: string;
   name: string;
   password: string;
 };
 
-declare type Account = {
+declare type AccountProps = {
   id: string;
   availableBalance: number;
   currentBalance: number;
@@ -59,7 +59,7 @@ declare type Account = {
   shareableId: string;
 };
 
-declare type Transaction = {
+declare type TransactionProps = {
   id: string;
   $id: string;
   name: string;
@@ -78,7 +78,7 @@ declare type Transaction = {
   receiverBankId: string;
 };
 
-declare type Bank = {
+declare type BankProps = {
   $id: string;
   accountId: string;
   bankId: string;
@@ -95,32 +95,32 @@ declare type AccountTypes =
   | "investment"
   | "other";
 
-declare type Category = "Food and Drink" | "Travel" | "Transfer";
+declare type CategoryProps = "Food and Drink" | "Travel" | "Transfer";
 
-declare type CategoryCount = {
+declare type CategoryCountProps = {
   name: string;
   count: number;
   totalCount: number;
 };
 
-declare type Receiver = {
+declare type ReceiverProps = {
   firstName: string;
   lastName: string;
 };
 
-declare type TransferParams = {
+declare type TransferProps = {
   sourceFundingSourceUrl: string;
   destinationFundingSourceUrl: string;
   amount: string;
 };
 
-declare type AddFundingSourceParams = {
+declare type AddFundingSourceProps = {
   dwollaCustomerId: string;
   processorToken: string;
   bankName: string;
 };
 
-declare type NewDwollaCustomerParams = {
+declare type NewDwollaCustomerProps = {
   firstName: string;
   lastName: string;
   email: string;
@@ -290,7 +290,7 @@ declare interface getTransactionsByBankIdProps {
   bankId: string;
 }
 
-declare interface signInProps {
+declare interface signInUserProps {
   email: string;
   password: string;
 }

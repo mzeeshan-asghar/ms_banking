@@ -2,10 +2,12 @@
 import HeaderBox from "@/components/HeaderBox";
 import RightSidebar from "@/components/RightSidebar";
 import TotalBalanceBox from "@/components/TotalBalanceBox";
+import { getCurrentUser } from "@/lib/actions/user.actions";
 
-const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
-  const currentPage = Number(page as string) || 1;
-  const currentUser = { firstName: "Zeeshan", lastName: "Asghar" };
+const Home = async ({ searchParams }: ParamsProps) => {
+  const params = await searchParams;
+  const currentPage = 1;
+  const currentUser = await getCurrentUser();
 
   return (
     <section className="home">
@@ -33,11 +35,7 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
         /> */}
       </div>
 
-      <RightSidebar
-        user={currentUser}
-        transactions={[]}
-        banks={[{ currentBalance: 112.33 }, { currentBalance: 888.22 }]}
-      />
+      <RightSidebar user={currentUser} transactions={[]} banks={[]} />
     </section>
   );
 };

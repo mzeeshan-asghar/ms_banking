@@ -1,9 +1,13 @@
 import MobileNav from "@/components/MobileNav";
 import Sidebar from "@/components/Sidebar";
+import { getCurrentUser } from "@/lib/actions/user.actions";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 async function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const currentUser = { firstName: "Zeeshan", lastName: "Asghar" };
+  const currentUser = await getCurrentUser();
+  if (!currentUser) return redirect("/sign-in");
+
   return (
     <main className="flex h-screen w-full font-inter">
       <Sidebar user={currentUser} />
