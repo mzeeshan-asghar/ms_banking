@@ -55,8 +55,6 @@ export const createOnDemandAuthorization = async () => {
 export const createDwollaCustomer = async (
   newCustomer: NewDwollaCustomerProps,
 ) => {
-  console.log(newCustomer);
-
   try {
     return await dwollaClient
       .post("customers", newCustomer)
@@ -100,10 +98,8 @@ export const addFundingSource = async ({
   bankName,
 }: AddFundingSourceProps) => {
   try {
-    // create dwolla auth link
     const dwollaAuthLinks = await createOnDemandAuthorization();
 
-    // add funding source to the dwolla customer & get the funding source url
     const fundingSourceOptions = {
       customerId: dwollaCustomerId,
       fundingSourceName: bankName,

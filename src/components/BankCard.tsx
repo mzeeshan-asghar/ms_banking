@@ -3,12 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Copy from "@/components/Copy";
 
-const BankCard = ({
-  account,
-  userName,
-  showBalance = true,
-}: CreditCardProps) => {
-  console.log(account);
+function BankCard({ account, userName, showBalance = true }: CreditCardProps) {
   return (
     <div className="flex flex-col">
       <Link
@@ -57,6 +52,6 @@ const BankCard = ({
       {showBalance && <Copy title={account?.sharaebleId} />}
     </div>
   );
-};
+}
 
 export default BankCard;

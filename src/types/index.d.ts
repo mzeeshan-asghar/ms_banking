@@ -167,7 +167,7 @@ declare interface PaginationProps {
 
 declare interface PlaidLinkProps {
   user: UserProps;
-  variant?: "primary" | "ghost";
+  variant?: "primary" | "ghost" | "default";
   dwollaCustomerId?: string;
 }
 
@@ -210,6 +210,16 @@ declare interface RecentTransactionsProps {
   page: number;
 }
 
+declare interface TransactionTableProps {
+  transactions: Transaction[];
+}
+
+declare interface TransactionsSyncRequest {
+  access_token: string;
+  cursor?: string | null;
+  count?: number;
+  options?: object;
+}
 // Actions
 declare interface CreateFundingSourceOptions {
   customerId: string; // Dwolla Customer ID

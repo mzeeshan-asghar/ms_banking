@@ -1,13 +1,27 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import HeaderBox from "@/components/HeaderBox";
+import RecentTransactions from "@/components/RecentTransactions";
 import RightSidebar from "@/components/RightSidebar";
 import TotalBalanceBox from "@/components/TotalBalanceBox";
+import {
+  getMultipleAccounts,
+  getSingleAccount,
+} from "@/lib/actions/bank.actions";
 import { getCurrentUser } from "@/lib/actions/user.actions";
 
 const Home = async ({ searchParams }: ParamsProps) => {
-  const params = await searchParams;
-  const currentPage = 1;
+  const { id, page } = await searchParams;
   const currentUser = await getCurrentUser();
+  const accounts = await getMultipleAccounts({
+    userId: currentUser.$id,
+  });
+
+  if (!accounts) return;
+
+  const accountsData = accounts?.data;
+  const appwriteItemId = (id as string) || accountsData[0]?.appwriteItemId;
+
+  const account = await getSingleAccount({ appwriteItemId });
 
   return (
     <section className="home">
@@ -21,21 +35,25 @@ const Home = async ({ searchParams }: ParamsProps) => {
           />
 
           <TotalBalanceBox
-            accounts={[]}
-            totalBanks={11}
-            totalCurrentBalance={1200.34}
+            accounts={accountsData}
+            totalBanks={accounts?.totalBanks}
+            totalCurrentBalance={accounts?.totalCurrentBalance}
           />
         </header>
 
-        {/* <RecentTransactions
+        <RecentTransactions
           accounts={accountsData}
           transactions={account?.transactions}
           appwriteItemId={appwriteItemId}
-          page={currentPage}
-        /> */}
+          page={Number(page as string) || 1}
+        />
       </div>
 
-      <RightSidebar user={currentUser} transactions={[]} banks={[]} />
+      <RightSidebar
+        user={currentUser}
+        transactions={account?.transactions}
+        banks={accountsData?.slice(0, 2)}
+      />
     </section>
   );
 };

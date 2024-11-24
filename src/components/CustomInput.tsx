@@ -16,7 +16,7 @@ interface CustomInput {
   placeholder: string;
 }
 
-const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
+function CustomInput({ control, name, label, placeholder }: CustomInput) {
   return (
     <FormField
       control={control}
@@ -39,6 +39,6 @@ const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
       )}
     />
   );
-};
+}
 
 export default CustomInput;

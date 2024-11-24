@@ -2,7 +2,7 @@ import { signOutUser } from "@/lib/actions/user.actions";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-const Footer = ({ user, type = "desktop" }: FooterProps) => {
+function Footer({ user, type = "desktop" }: FooterProps) {
   const router = useRouter();
 
   const handleLogOut = async () => {
@@ -32,6 +32,6 @@ const Footer = ({ user, type = "desktop" }: FooterProps) => {
       </div>
     </footer>
   );
-};
+}
 
 export default Footer;

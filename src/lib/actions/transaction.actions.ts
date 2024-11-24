@@ -3,21 +3,17 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient } from "../appwrite";
 import { parseStringify } from "../utils";
-
-const {
-  APPWRITE_DATABASE_ID: DATABASE_ID,
-  APPWRITE_TRANSACTION_COLLECTION_ID: TRANSACTION_COLLECTION_ID,
-} = process.env;
+import { appwriteConfig } from "../appwrite/config";
 
 export const createTransaction = async (
   transaction: CreateTransactionProps,
 ) => {
   try {
-    const { database } = await createAdminClient();
+    const { databases } = await createAdminClient();
 
-    const newTransaction = await database.createDocument(
-      DATABASE_ID!,
-      TRANSACTION_COLLECTION_ID!,
+    const newTransaction = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.transactionCollectionId,
       ID.unique(),
       {
         channel: "online",
@@ -38,17 +34,17 @@ export const getTransactionsByBankId = async ({
   bankId: string;
 }) => {
   try {
-    const { database } = await createAdminClient();
+    const { databases } = await createAdminClient();
 
-    const senderTransactions = await database.listDocuments(
-      DATABASE_ID!,
-      TRANSACTION_COLLECTION_ID!,
+    const senderTransactions = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.transactionCollectionId,
       [Query.equal("senderBankId", bankId)],
     );
 
-    const receiverTransactions = await database.listDocuments(
-      DATABASE_ID!,
-      TRANSACTION_COLLECTION_ID!,
+    const receiverTransactions = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.transactionCollectionId,
       [Query.equal("receiverBankId", bankId)],
     );
 

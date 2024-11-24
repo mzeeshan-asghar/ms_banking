@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import PlaidLink from "@/components/PlaidLink";
 import { signInUser, SignUpUser } from "@/lib/actions/user.actions";
 
-const AuthForm = ({ type }: AuthFormProps) => {
+function AuthForm({ type }: AuthFormProps) {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +49,6 @@ const AuthForm = ({ type }: AuthFormProps) => {
         };
 
         const newUser = await SignUpUser(userData);
-        console.log("newUser", newUser);
 
         setUser(newUser);
       }
@@ -214,6 +213,6 @@ const AuthForm = ({ type }: AuthFormProps) => {
       )}
     </section>
   );
-};
+}
 
 export default AuthForm;

@@ -24,6 +24,7 @@ import {
   addFundingSource,
   createDwollaCustomer,
 } from "@/lib/actions/dwolla.actions";
+import { plaidConfig } from "../plaid/config";
 
 // Appwrite Actions
 const getUserByEmail = async (email: string) => {
@@ -51,14 +52,11 @@ const setSessionCookies = async (secret: string) => {
 
 export const SignUpUser = async ({ password, ...formData }: SignUpProps) => {
   const { email, firstName, lastName } = formData;
+  let existingUser = null;
 
   try {
-    const existingUser = await getUserByEmail(email);
-
-    if (existingUser) {
-      console.log("** User already exists :)");
-      redirect("/sign-in");
-    }
+    existingUser = await getUserByEmail(email);
+    if (existingUser) return;
 
     const { account, databases } = await createAdminClient();
 
@@ -98,6 +96,11 @@ export const SignUpUser = async ({ password, ...formData }: SignUpProps) => {
     return parseStringify(userData);
   } catch (error) {
     handleError(error, "Failed to create account");
+  } finally {
+    if (existingUser) {
+      console.log("Redirecting to sign-in as user already exists.");
+      redirect("/sign-in");
+    }
   }
 };
 
@@ -170,16 +173,19 @@ export const createLinkToken = async (user: UserProps) => {
         client_user_id: user.$id,
       },
       client_name: `${user.firstName} ${user.lastName}`,
-      products: ["auth"] as Products[],
+      products: plaidConfig.products as Products[],
       language: "en",
-      country_codes: ["US"] as CountryCode[],
+      country_codes: plaidConfig.countryCodes as CountryCode[],
     };
 
     const response = await plaidClient.linkTokenCreate(tokenProps);
 
     return parseStringify({ linkToken: response.data.link_token });
   } catch (error) {
-    console.log(error);
+    console.error("Error creating Plaid Link Token:", error);
+    throw new Error(
+      "Failed to create Plaid Link Token. Check the logs for details.",
+    );
   }
 };
 
@@ -238,5 +244,59 @@ export const exchangePublicToken = async ({
     });
   } catch (error) {
     console.error("An error occurred while creating exchanging token:", error);
+  }
+};
+
+export const getSingleBank = async ({ documentId }: { documentId: string }) => {
+  try {
+    const { databases } = await createAdminClient();
+
+    const bank = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.bankCollectionId,
+      [Query.equal("$id", [documentId])],
+    );
+
+    return parseStringify(bank.documents[0]);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getMultipleBanks = async ({ userId }: { userId: string }) => {
+  try {
+    const { databases } = await createAdminClient();
+
+    const banks = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.bankCollectionId,
+      [Query.equal("userId", [userId])],
+    );
+
+    return parseStringify(banks.documents);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getBankByAccountId = async ({
+  accountId,
+}: {
+  accountId: string;
+}) => {
+  try {
+    const { databases } = await createAdminClient();
+
+    const bank = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.bankCollectionId,
+      [Query.equal("accountId", [accountId])],
+    );
+
+    if (bank.total !== 1) return null;
+
+    return parseStringify(bank.documents[0]);
+  } catch (error) {
+    console.log(error);
   }
 };

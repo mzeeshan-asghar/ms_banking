@@ -40,22 +40,22 @@ export const formatDateTime = (dateString: Date) => {
 
   const formattedDateTime: string = new Date(dateString).toLocaleString(
     "en-US",
-    dateTimeOptions
+    dateTimeOptions,
   );
 
   const formattedDateDay: string = new Date(dateString).toLocaleString(
     "en-US",
-    dateDayOptions
+    dateDayOptions,
   );
 
   const formattedDate: string = new Date(dateString).toLocaleString(
     "en-US",
-    dateOptions
+    dateOptions,
   );
 
   const formattedTime: string = new Date(dateString).toLocaleString(
     "en-US",
-    timeOptions
+    timeOptions,
   );
 
   return {
@@ -99,7 +99,7 @@ export function formUrlQuery({ params, key, value }: UrlQueryParams) {
       url: window.location.pathname,
       query: currentUrl,
     },
-    { skipNull: true }
+    { skipNull: true },
   );
 }
 
@@ -132,39 +132,33 @@ export function getAccountTypeColors(type: AccountTypes) {
 }
 
 export function countTransactionCategories(
-  transactions: Transaction[]
-): CategoryCount[] {
+  transactions: TransactionProps[],
+): CategoryCountProps[] {
   const categoryCounts: { [category: string]: number } = {};
   let totalCount = 0;
 
-  // Iterate over each transaction
-  transactions &&
+  if (transactions) {
     transactions.forEach((transaction) => {
-      // Extract the category from the transaction
       const category = transaction.category;
 
-      // If the category exists in the categoryCounts object, increment its count
       if (categoryCounts.hasOwnProperty(category)) {
         categoryCounts[category]++;
       } else {
-        // Otherwise, initialize the count to 1
         categoryCounts[category] = 1;
       }
 
-      // Increment total count
       totalCount++;
     });
+  }
 
-  // Convert the categoryCounts object to an array of objects
-  const aggregatedCategories: CategoryCount[] = Object.keys(categoryCounts).map(
-    (category) => ({
-      name: category,
-      count: categoryCounts[category],
-      totalCount,
-    })
-  );
+  const aggregatedCategories: CategoryCountProps[] = Object.keys(
+    categoryCounts,
+  ).map((category) => ({
+    name: category,
+    count: categoryCounts[category],
+    totalCount,
+  }));
 
-  // Sort the aggregatedCategories array by count in descending order
   aggregatedCategories.sort((a, b) => b.count - a.count);
 
   return aggregatedCategories;

@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import {
@@ -12,17 +14,14 @@ import {
 } from "@/lib/actions/user.actions";
 import Image from "next/image";
 
-const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
+function PlaidLink({ user, variant }: PlaidLinkProps) {
   const router = useRouter();
 
   const [token, setToken] = useState("");
 
   useEffect(() => {
     const getLinkToken = async () => {
-      console.log("plaid user", user);
-
       const data = await createLinkToken(user);
-      console.log("plaid data", data);
 
       setToken(data?.linkToken);
     };
@@ -35,6 +34,7 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
       await exchangePublicToken({ publicToken, user });
       router.push("/");
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [user],
   );
 
@@ -71,6 +71,11 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
             Connect bank
           </p>
         </Button>
+      ) : variant === "default" ? (
+        <Button onClick={() => open()} className="plaid-link-default">
+          <Image src="/icons/plus.svg" width={20} height={20} alt="plus" />
+          <h2 className="text-14 font-semibold text-gray-600">Add Bank</h2>
+        </Button>
       ) : (
         <Button onClick={() => open()} className="plaid-link-default">
           <Image
@@ -84,6 +89,6 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
       )}
     </>
   );
-};
+}
 
 export default PlaidLink;

@@ -2,7 +2,7 @@ import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
 import { plaidConfig } from "@/lib/plaid/config";
 
 const configuration = new Configuration({
-  basePath: PlaidEnvironments.sandbox,
+  basePath: PlaidEnvironments[plaidConfig.env],
   baseOptions: {
     headers: {
       "PLAID-CLIENT-ID": plaidConfig.clientId,

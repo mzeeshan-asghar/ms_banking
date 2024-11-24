@@ -13,7 +13,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Footer from "@/components/Footer";
 
-const MobileNav = ({ user }: { user: UserProps }) => {
+function MobileNav({ user }: { user: UserProps }) {
   const pathname = usePathname();
 
   return (
@@ -72,6 +72,6 @@ const MobileNav = ({ user }: { user: UserProps }) => {
       </Sheet>
     </section>
   );
-};
+}
 
 export default MobileNav;
